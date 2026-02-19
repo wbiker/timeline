@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: timeline
+      POSTGRES_PASSWORD: timeline
+      POSTGRES_DB: timeline
+    ports:
+      - "6666:5432"
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+#volumes:
+#  pgdata:
