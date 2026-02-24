@@ -2,7 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "4.0.2"
 	id("io.spring.dependency-management") version "1.1.7"
-	id("org.liquibase.gradle") version "3.1.0"
+//	id("org.liquibase.gradle") version "3.1.0"
 }
 
 group = "com.bastelbude"
