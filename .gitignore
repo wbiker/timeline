@@ -23,3 +23,7 @@
 hs_err_pid*
 replay_pid*
 build/
+/.gradle/9.3.1/fileChanges/last-build.bin
+/.gradle/9.3.1/checksums/checksums.lock
+/.gradle/9.3.1/fileHashes/fileHashes.lock
+/.gradle/9.3.1/gc.properties
