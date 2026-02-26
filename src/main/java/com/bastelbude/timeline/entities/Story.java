@@ -17,9 +17,9 @@ public class Story {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long identifier;
 
-    @Column
+    @Column(name = "storyid")
     Long storyId;
 
     @Column
-    String name;
+    String title;
 }

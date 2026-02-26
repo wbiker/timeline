@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-story-table
+      author: timeline
+      changes:
+        - createTable:
+            tableName: story
+            columns:
+              - column:
+                  name: identifier
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: story_id
+                  type: bigint
+              - column:
+                  name: title
+                  type: varchar(255)
+
