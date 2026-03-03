@@ -1,6 +1,7 @@
 package com.bastelbude.timeline.services;
 
 import com.bastelbude.timeline.entities.Story;
+import com.bastelbude.timeline.model.StoryModel;
 import com.bastelbude.timeline.repositories.StoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,8 @@ public class StoryService {
     return repository.findAll();
   }
 
-  public StoryModel save(StoryModel storyModel) {
+  public Story save(StoryModel storyModel) {
     Story storyEntity = new Story(storyModel.id(), storyModel.storyId(), storyModel.title());
-    var entitySaved = repository.save(storyEntity);
-    return StoryModel.builder()
-            .id(entitySaved.getIdentifier())
-            .storyId(entitySaved.getStoryId())
-            .title(entitySaved.getTitle())
-            .build();
+    return repository.save(storyEntity);
   }
 }

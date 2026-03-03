@@ -29,6 +29,6 @@ public class StoryController {
 
   @PostMapping("/stories")
   public StoryModel storeStory(@RequestBody StoryModel storyModel) {
-    return storyService.save(storyModel);
+    return storyMapper.toModel(storyService.save(storyModel));
   }
 }
