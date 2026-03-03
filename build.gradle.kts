@@ -35,6 +35,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-liquibase")
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
 	implementation("org.postgresql:postgresql:42.7.7")
+  val mapstructVersion = "1.6.3"
+  implementation("org.mapstruct:mapstruct:$mapstructVersion")
+  implementation("org.mapstruct:mapstruct-processor:$mapstructVersion")
+  annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")

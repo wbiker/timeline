@@ -1,5 +1,6 @@
 package com.bastelbude.timeline.controller;
 
+import com.bastelbude.timeline.mapper.StoryMapper;
 import com.bastelbude.timeline.model.StoryModel;
 import com.bastelbude.timeline.services.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,13 @@ public class StoryController {
   @Autowired
   private StoryService storyService;
 
+  private final StoryMapper storyMapper = StoryMapper.INSTANCE;
+
   @GetMapping("/stories")
   public List<StoryModel> getStories() {
-    return storyService.findAll();
+    return storyService.findAll()
+                       .stream()
+                       .map(storyMapper::toModel)
+                       .toList();
   }
 }

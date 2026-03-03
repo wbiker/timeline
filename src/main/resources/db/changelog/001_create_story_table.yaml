@@ -5,6 +5,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: story
+            ifNotExists: true
             columns:
               - column:
                   name: identifier
