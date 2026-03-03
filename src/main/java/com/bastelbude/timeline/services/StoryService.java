@@ -16,4 +16,14 @@ public class StoryService {
   public List<Story> findAll() {
     return repository.findAll();
   }
+
+  public StoryModel save(StoryModel storyModel) {
+    Story storyEntity = new Story(storyModel.id(), storyModel.storyId(), storyModel.title());
+    var entitySaved = repository.save(storyEntity);
+    return StoryModel.builder()
+            .id(entitySaved.getIdentifier())
+            .storyId(entitySaved.getStoryId())
+            .title(entitySaved.getTitle())
+            .build();
+  }
 }
