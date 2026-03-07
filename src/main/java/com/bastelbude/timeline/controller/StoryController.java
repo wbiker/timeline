@@ -4,11 +4,12 @@ import com.bastelbude.timeline.mapper.StoryMapper;
 import com.bastelbude.timeline.model.StoryModel;
 import com.bastelbude.timeline.services.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -27,8 +28,19 @@ public class StoryController {
                        .toList();
   }
 
-  @PostMapping("/stories")
+  @PostMapping(value="/stories", consumes="application/json", produces="application/json")
+  @ResponseBody
   public StoryModel storeStory(@RequestBody StoryModel storyModel) {
     return storyMapper.toModel(storyService.save(storyModel));
+  }
+
+  @Bean
+  UrlBasedCorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(Arrays.asList("https://example.com"));
+    configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
   }
 }
