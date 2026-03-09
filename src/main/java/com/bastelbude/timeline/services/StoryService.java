@@ -1,6 +1,7 @@
 package com.bastelbude.timeline.services;
 
 import com.bastelbude.timeline.entities.Story;
+import com.bastelbude.timeline.mapper.StoryMapper;
 import com.bastelbude.timeline.model.StoryModel;
 import com.bastelbude.timeline.repositories.StoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,14 @@ public class StoryService {
   @Autowired
   private StoryRepository repository;
 
+  private final StoryMapper storyMapper = StoryMapper.INSTANCE;
+
   public List<Story> findAll() {
     return repository.findAll();
   }
 
   public Story save(StoryModel storyModel) {
-    Story storyEntity = new Story(storyModel.id(), storyModel.storyId(), storyModel.title());
-    return repository.save(storyEntity);
+    Story entity = storyMapper.toEntity(storyModel);
+    return repository.save(entity);
   }
 }

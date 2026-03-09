@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,9 +19,18 @@ public class Story {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long identifier;
 
-    @Column(name = "story_id")
+    @Column
     Long storyId;
 
     @Column
     String title;
+
+    @Column
+  Boolean isPermanent;
+
+    @Column
+  Date date;
+
+    @Column
+  int offsetInDays;
 }
