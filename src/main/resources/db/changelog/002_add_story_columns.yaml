@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-add-story-columns
+      author: timeline
+      changes:
+        - addColumn:
+            tableName: story
+            columns:
+              - column:
+                  name: is_permanent
+                  type: boolean
+              - column:
+                  name: date
+                  type: timestamp
+              - column:
+                  name: offset_in_days
+                  type: integer
+

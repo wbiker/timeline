@@ -1,0 +1,35 @@
+databaseChangeLog:
+- changeSet:
+    id: 1773142268718-1
+    author: w.banaston (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: story_pkey
+            name: identifier
+            type: BIGINT
+        - column:
+            name: storyid
+            type: INTEGER
+        - column:
+            name: title
+            type: VARCHAR(255)
+        - column:
+            name: is_permanent
+            type: BOOLEAN
+        - column:
+            name: date
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: offset_in_days
+            type: INTEGER
+        - column:
+            name: story_id
+            type: BIGINT
+        tableName: story
+
