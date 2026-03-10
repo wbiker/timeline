@@ -1,8 +1,16 @@
+import org.gradle.kotlin.dsl.buildscript
+
 plugins {
-	java
+  `java-gradle-plugin`
 	id("org.springframework.boot") version "4.0.2"
 	id("io.spring.dependency-management") version "1.1.7"
-//	id("org.liquibase.gradle") version "3.1.0"
+  id("org.liquibase.gradle") version "3.1.0"
+}
+
+buildscript {
+  dependencies {
+    classpath("org.liquibase:liquibase-core:4.33.0")
+  }
 }
 
 group = "com.bastelbude"
@@ -19,14 +27,11 @@ configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
+	create("liquibase")
 }
 
 repositories {
 	mavenCentral()
-
-	dependencies {
-//		classpath("org.liquibase:liquibase-core:4.31.1")
-	}
 }
 
 dependencies {
@@ -51,12 +56,101 @@ dependencies {
 	testImplementation("org.testcontainers:testcontainers-postgresql")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-//	liquibaseRuntime 'org.liquibase:liquibase-core:4.31.1'
-//	liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:4.0.1'
-//	liquibaseRuntime 'info.picocli:picocli:4.6.1'
-//	liquibaseRuntime 'mysql:mysql-connector-java:5.1.34'
+  implementation("org.liquibase:liquibase-gradle-plugin:3.1.0")
+  implementation("org.liquibase:liquibase-core:4.33.0")
+  "liquibaseRuntime"("org.liquibase:liquibase-core:4.33.0")
+  "liquibaseRuntime"("org.liquibase.ext:liquibase-hibernate6:4.33.0")
+
+  "liquibase"("org.liquibase:liquibase-core:4.31.1")
+	"liquibase"("org.postgresql:postgresql:42.7.7")
+	"liquibase"("info.picocli:picocli:4.7.6")
+	"liquibase"("org.yaml:snakeyaml:2.0")
+}
+
+// Liquibase configuration
+val liquibaseUrl = "jdbc:postgresql://localhost:6666/timeline"
+val liquibaseUsername = "timeline"
+val liquibasePassword = "timeline"
+val liquibaseChangelogFile = file("src/main/resources/db/changelog/db.changelog-master.yaml").absolutePath
+
+// Custom Liquibase tasks using JavaExec
+tasks.register<JavaExec>("liquibaseUpdate") {
+	group = "liquibase"
+	description = "Apply pending changelog changes to the database"
+	classpath = configurations["liquibase"]
+	mainClass.set("liquibase.integration.commandline.LiquibaseCommandLine")
+	args = listOf(
+		"--changelogFile=$liquibaseChangelogFile",
+		"--url=$liquibaseUrl",
+		"--username=$liquibaseUsername",
+		"--password=$liquibasePassword",
+		"--driver=org.postgresql.Driver",
+		"update"
+	)
+}
+
+tasks.register<JavaExec>("liquibaseUpdateSQL") {
+	group = "liquibase"
+	description = "Preview SQL that would be executed for update"
+	classpath = configurations["liquibase"]
+	mainClass.set("liquibase.integration.commandline.LiquibaseCommandLine")
+	args = listOf(
+		"--changeLogFile=$liquibaseChangelogFile",
+		"--url=$liquibaseUrl",
+		"--username=$liquibaseUsername",
+		"--password=$liquibasePassword",
+		"--driver=org.postgresql.Driver",
+		"updateSQL"
+	)
+}
+
+tasks.register<JavaExec>("liquibaseGenerateChangelog") {
+	group = "liquibase"
+	description = "Generate a new changelog from the current database schema"
+	classpath = configurations["liquibase"]
+	mainClass.set("liquibase.integration.commandline.LiquibaseCommandLine")
+	args = listOf(
+		"--changeLogFile=${file("src/main/resources/db/changelog/003_generated.yaml").absolutePath}",
+		"--url=$liquibaseUrl",
+		"--username=$liquibaseUsername",
+		"--password=$liquibasePassword",
+		"--driver=org.postgresql.Driver",
+		"generateChangeLog"
+	)
+}
+
+tasks.register<JavaExec>("liquibaseDiff") {
+	group = "liquibase"
+	description = "Compare database to changelog"
+	classpath = configurations["liquibase"]
+	mainClass.set("liquibase.integration.commandline.LiquibaseCommandLine")
+	args = listOf(
+		"--changeLogFile=$liquibaseChangelogFile",
+		"--url=$liquibaseUrl",
+		"--username=$liquibaseUsername",
+		"--password=$liquibasePassword",
+		"--driver=org.postgresql.Driver",
+		"diff"
+	)
+}
+
+tasks.register<JavaExec>("liquibaseStatus") {
+	group = "liquibase"
+	description = "Show pending changesets"
+	classpath = configurations["liquibase"]
+	mainClass.set("liquibase.integration.commandline.LiquibaseCommandLine")
+	args = listOf(
+		"--changeLogFile=$liquibaseChangelogFile",
+		"--url=$liquibaseUrl",
+		"--username=$liquibaseUsername",
+		"--password=$liquibasePassword",
+		"--driver=org.postgresql.Driver",
+		"status",
+		"--verbose"
+	)
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
