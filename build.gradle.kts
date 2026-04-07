@@ -58,13 +58,12 @@ dependencies {
 
   implementation("org.liquibase:liquibase-gradle-plugin:3.1.0")
   implementation("org.liquibase:liquibase-core:4.33.0")
-  "liquibaseRuntime"("org.liquibase:liquibase-core:4.33.0")
-  "liquibaseRuntime"("org.liquibase.ext:liquibase-hibernate6:4.33.0")
+  liquibaseRuntime("org.liquibase:liquibase-core:4.33.0")
+  liquibaseRuntime("org.liquibase.ext:liquibase-hibernate6:4.33.0")
 
-  "liquibase"("org.liquibase:liquibase-core:4.31.1")
 	"liquibase"("org.postgresql:postgresql:42.7.7")
-	"liquibase"("info.picocli:picocli:4.7.6")
-	"liquibase"("org.yaml:snakeyaml:2.0")
+	liquibaseRuntime("info.picocli:picocli:4.7.6")
+	liquibaseRuntime("org.yaml:snakeyaml:2.0")
 }
 
 // Liquibase configuration
