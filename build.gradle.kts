@@ -5,18 +5,7 @@ plugins {
   id("org.liquibase.gradle") version "3.1.0"
 }
 
-configurations {
-	all {
-		exclude(group = "org.slf4j", module = "slf4j-api")
-		exclude(group = "org.gradle", module = "gradle-api")
-		exclude(group =  "ch.qos.logback", module =  "logback-classic")
-	}
-}
-
 buildscript {
-	repositories {
-		mavenCentral()
-	}
   dependencies {
     classpath("org.liquibase:liquibase-core:4.33.0")
   }
