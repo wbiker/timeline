@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.buildscript
-
 plugins {
   `java-gradle-plugin`
 	id("org.springframework.boot") version "4.0.2"
@@ -7,7 +5,18 @@ plugins {
   id("org.liquibase.gradle") version "3.1.0"
 }
 
+configurations {
+	all {
+		exclude(group = "org.slf4j", module = "slf4j-api")
+		exclude(group = "org.gradle", module = "gradle-api")
+		exclude(group =  "ch.qos.logback", module =  "logback-classic")
+	}
+}
+
 buildscript {
+	repositories {
+		mavenCentral()
+	}
   dependencies {
     classpath("org.liquibase:liquibase-core:4.33.0")
   }
@@ -42,8 +51,9 @@ dependencies {
 	implementation("org.postgresql:postgresql:42.7.7")
   val mapstructVersion = "1.6.3"
   implementation("org.mapstruct:mapstruct:$mapstructVersion")
-  implementation("org.mapstruct:mapstruct-processor:$mapstructVersion")
   annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
+	testAnnotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}")
+
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
@@ -56,14 +66,13 @@ dependencies {
 	testImplementation("org.testcontainers:testcontainers-postgresql")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-  implementation("org.liquibase:liquibase-gradle-plugin:3.1.0")
   implementation("org.liquibase:liquibase-core:4.33.0")
   "liquibaseRuntime"("org.liquibase:liquibase-core:4.33.0")
   "liquibaseRuntime"("org.liquibase.ext:liquibase-hibernate6:4.33.0")
 
   "liquibase"("org.liquibase:liquibase-core:4.31.1")
 	"liquibase"("org.postgresql:postgresql:42.7.7")
-	"liquibase"("info.picocli:picocli:4.7.6")
+	"liquibaseRuntime"("info.picocli:picocli:4.7.6")
 	"liquibase"("org.yaml:snakeyaml:2.0")
 }
 

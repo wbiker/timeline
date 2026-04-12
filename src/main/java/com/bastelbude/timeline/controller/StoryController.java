@@ -1,7 +1,9 @@
 package com.bastelbude.timeline.controller;
 
 import com.bastelbude.timeline.mapper.StoryMapper;
+import com.bastelbude.timeline.mapper.StoryOccurrenceMapper;
 import com.bastelbude.timeline.model.StoryModel;
+import com.bastelbude.timeline.model.StoryOccurrenceModel;
 import com.bastelbude.timeline.services.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,19 +21,20 @@ public class StoryController {
   private StoryService storyService;
 
   private final StoryMapper storyMapper = StoryMapper.INSTANCE;
+  private final StoryOccurrenceMapper storyOccurrenceMapper = StoryOccurrenceMapper.INSTANCE;
 
-  @GetMapping("/stories")
-  public List<StoryModel> getStories() {
-    return storyService.findAll()
+  @GetMapping("/stories/{weeknumber}")
+  public List<StoryOccurrenceModel> getStories(@PathVariable int weeknumber) {
+    return storyService.findAllForWeeknumber(weeknumber)
                        .stream()
-                       .map(storyMapper::toModel)
+                       .map(storyOccurrenceMapper::toModel)
                        .toList();
   }
 
-  @PostMapping(value="/stories", consumes="application/json", produces="application/json")
+  @PostMapping(value="/stories/{weeknumber}", consumes="application/json", produces="application/json")
   @ResponseBody
-  public StoryModel storeStory(@RequestBody StoryModel storyModel) {
-    return storyMapper.toModel(storyService.save(storyModel));
+  public StoryModel storeStory(@PathVariable int weeknumber, @RequestBody StoryModel storyModel) {
+   return storyMapper.toModel(storyService.save(storyModel));
   }
 
   @Bean

@@ -1,6 +1,5 @@
 package com.bastelbude.timeline.entities;
 
-import com.bastelbude.timeline.model.Weekdays;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,27 +11,32 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Story {
-
+public class StoryOccurrence {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long identifier;
 
-  @Column
-  Long storyId;
+  @ManyToOne(targetEntity = Story.class)
+  Story story;
 
   @Column
-  String title;
+  Integer weeknumber;
 
   @Column
-  Boolean isPermanent;
+  Long monday;
 
   @Column
-  Weekdays weekdays = Weekdays.All;
+  Long tuesday;
 
   @Column
-  int offsetInWeeks;
+  Long wednesday;
 
   @Column
-  String timestampForOffset;
+  Long thursday;
+
+  @Column
+  Long friday;
+
+  @Column
+  Long total;
 }
