@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,5 +38,18 @@ public class Story {
   int offsetInWeeks;
 
   @Column
-  String timestampForOffset;
+  LocalDate timestampForOffset;
+
+  @OneToMany(mappedBy = "story", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<StoryOccurrence> occurrences = new ArrayList<>();
+
+  public void addOccurrence(StoryOccurrence occurrence) {
+    occurrences.add(occurrence);
+    occurrence.setStory(this);
+  }
+
+  public void removeOccurrence(StoryOccurrence occurrence) {
+    occurrences.remove(occurrence);
+    occurrence.setStory(null);
+  }
 }

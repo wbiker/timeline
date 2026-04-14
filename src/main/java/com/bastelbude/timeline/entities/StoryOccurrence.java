@@ -16,7 +16,8 @@ public class StoryOccurrence {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long identifier;
 
-  @ManyToOne(targetEntity = Story.class)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "story", nullable = false)
   Story story;
 
   @Column
