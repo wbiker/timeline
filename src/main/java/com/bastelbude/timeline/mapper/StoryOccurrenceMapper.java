@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 public interface StoryOccurrenceMapper {
   StoryOccurrenceMapper INSTANCE = Mappers.getMapper(StoryOccurrenceMapper.class);
 
-  StoryOccurrenceModel toModel(StoryOccurrence storyOccurance);
+  StoryOccurrenceModel toModel(StoryOccurrence storyOccurrence);
 
-  StoryOccurrence toEntity(StoryOccurrenceModel storyOccurenceModel);
+  StoryOccurrence toEntity(StoryOccurrenceModel storyOccurrenceModel);
 }

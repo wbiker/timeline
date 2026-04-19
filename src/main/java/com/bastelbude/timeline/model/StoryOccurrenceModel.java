@@ -2,7 +2,8 @@ package com.bastelbude.timeline.model;
 
 public record StoryOccurrenceModel(
     Long identifier,
-    Long storyIdentifier,
+    String title,
+    int weeknumber,
     Long monday,
     Long tuesday,
     Long wednesday,

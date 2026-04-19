@@ -1,8 +1,12 @@
 package com.bastelbude.timeline;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 public class TimelineApplication {
@@ -11,15 +15,8 @@ public class TimelineApplication {
 		SpringApplication.run(TimelineApplication.class, args);
 	}
 
-//	@Bean
-//	public WebMvcConfigurer corsConfigurer() {
-//		return new WebMvcConfigurer() {
-//			@Override
-//			public void addCorsMappings(CorsRegistry registry) {
-//				registry.addMapping("/**")
-//						.allowedOrigins("http://localhost:4200")
-//						.allowedMethods("GET", "POST", "PUT", "DELETE");
-//			}
-//		};
-//	}
+	@Autowired
+	public void listConfigurers(List<WebMvcConfigurer> configurers) {
+		System.out.println("WebMvcConfigurers: " + configurers);
+	}
 }

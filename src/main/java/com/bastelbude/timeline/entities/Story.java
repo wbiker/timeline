@@ -37,7 +37,7 @@ public class Story {
   @Column
   int offsetInWeeks;
 
-  @Column
+  @Column(name = "timestamp_for_offset")
   LocalDate timestampForOffset;
 
   @OneToMany(mappedBy = "story", cascade = CascadeType.ALL, orphanRemoval = true)

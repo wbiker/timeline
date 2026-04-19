@@ -152,3 +152,12 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
+tasks.withType<JavaExec>().configureEach {
+	classpath = sourceSets.main.get().runtimeClasspath
+	// Exclude Gradle's SLF4J binding
+	classpath = classpath.minus(
+		configurations.runtimeClasspath.get()
+			.filter { it.name.startsWith("gradle") }
+	)
+}
+
